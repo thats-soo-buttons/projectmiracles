@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #000000;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  line-height: 1.5;
+}
+
+/* Terminal text effect */
+.terminal-text {
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+}
+
+/* Blinking cursor */
+.cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  49% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Terminal input style */
+input,
+textarea {
+  background-color: #000000;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  font-family: "Courier New", monospace;
+  padding: 8px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+button {
+  background-color: #000000;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: #003300;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+button:active {
+  transform: scale(0.98);
+}
