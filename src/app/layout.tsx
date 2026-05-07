@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Project Miracles",
-  description: "Crowdfunding for a horror TV show and interactive website",
+  title: "Project Miracles — Horror TV Crowdfunding",
+  description: "Back a horror TV series built by the community. Conditional pledges — no charge until funding goals are reached.",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-terminal text-terminal-green font-mono">{children}</body>
+      <body className="bg-bg text-text font-sans">{children}</body>
     </html>
   );
 }

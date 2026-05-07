@@ -11,7 +11,6 @@ export default function PledgeForm({ onSubmit }: PledgeFormProps) {
   const [email, setEmail] = useState("");
   const [amount, setAmount] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [showRewards, setShowRewards] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
   const rewardTiers = [
@@ -79,170 +78,115 @@ export default function PledgeForm({ onSubmit }: PledgeFormProps) {
   };
 
   return (
-    <div className="border border-terminal-green p-8 max-w-4xl">
-      <h2 className="text-2xl mb-6 terminal-text">{`PLEDGE YOUR SUPPORT`}</h2>
+    <div className="max-w-3xl space-y-6">
+      <div>
+        <p className="mono text-accent text-xs tracking-widest uppercase mb-1">{"// BACK THIS PROJECT"}</p>
+        <h2 className="text-2xl font-bold text-text">Pledge Your Support</h2>
+        <p className="text-muted text-sm mt-1">No charge until a funding goal is reached — you confirm before anything is collected.</p>
+      </div>
 
       {submitted ? (
-        <div className="border border-terminal-green p-4 bg-terminal">
-          <p className="text-terminal-green">{`✓ PLEDGE RECEIVED`}</p>
-          <p className="text-terminal-dark-green mt-2">
-            {`You will receive email confirmations when each funding goal is reached.`}
-          </p>
-          <p className="text-terminal-dark-green mt-2 text-sm">
-            {`At that time, you can review the details and decide whether to proceed.`}
-          </p>
+        <div className="bg-accent/10 border border-accent/30 rounded-md p-6">
+          <p className="text-accent font-semibold text-lg mb-1">✓ Pledge received</p>
+          <p className="text-muted text-sm">You'll get an email when each funding goal is reached. At that point you can confirm or cancel — no pressure.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Quick-pick tiers */}
           <div>
-            <label className="block text-terminal-dark-green mb-2">
-              {`> NAME (for credits):`}
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className="w-full"
-            />
+            <p className="text-sm font-medium text-text mb-3">Select a pledge level</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {rewardTiers.map((tier) => (
+                <button
+                  key={tier.amount}
+                  type="button"
+                  onClick={() => setAmount(String(tier.amount))}
+                  className={`p-3 rounded-md border text-left transition-all ${
+                    amount === String(tier.amount)
+                      ? "border-accent bg-accent/10 text-text"
+                      : "border-border bg-surface text-muted hover:border-accent/40"
+                  }`}
+                >
+                  <p className="font-bold text-text">${tier.amount}</p>
+                  <p className="text-xs mt-0.5 text-muted">{tier.title}</p>
+                </button>
+              ))}
+            </div>
           </div>
 
+          {/* Custom amount */}
           <div>
-            <label className="block text-terminal-dark-green mb-2">
-              {`> EMAIL (for notifications):`}
+            <label className="block text-sm font-medium text-text mb-1">
+              Custom amount <span className="text-muted font-normal">(or type your own)</span>
             </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="w-full"
-            />
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">$</span>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="25"
+                min="1"
+                className="w-full pl-7"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-terminal-dark-green mb-2">
-              {`> PLEDGE AMOUNT ($):`}
-            </label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="25"
-              min="1"
-              className="w-full"
-            />
-            <p className="text-terminal-dark-green text-xs mt-2">
-              {`Suggested: $25, $100, $250, or $500 - or enter custom amount`}
-            </p>
+          {/* Rewards for selected tier */}
+          {amount && rewardTiers.find((t) => t.amount <= parseFloat(amount)) && (() => {
+            const tier = [...rewardTiers].reverse().find((t) => t.amount <= parseFloat(amount));
+            if (!tier) return null;
+            return (
+              <div className="bg-surface border border-border rounded-md p-4 text-sm">
+                <p className="font-semibold text-text mb-2">Your rewards at <span className="text-accent">${tier.amount}+ — {tier.title}</span></p>
+                <ul className="space-y-1 text-muted">
+                  {tier.rewards.map((r, i) => <li key={i}>· {r}</li>)}
+                </ul>
+                <p className="text-xs text-muted/60 mt-3">Rewards contingent on successful funding and production.</p>
+              </div>
+            );
+          })()}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-text mb-1">Name <span className="text-muted font-normal">(for credits)</span></label>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className="w-full" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-text mb-1">Email <span className="text-muted font-normal">(for notifications)</span></label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" className="w-full" />
+            </div>
           </div>
 
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => setShowRewards(!showRewards)}
-              className="flex-1 py-2 text-sm border border-terminal-dark-green bg-terminal hover:bg-terminal-dark-green hover:text-terminal"
-            >
-              {`VIEW PLEDGE LEVELS & REWARDS`}
-            </button>
+          {/* Terms toggle */}
+          <div>
             <button
               type="button"
               onClick={() => setShowTerms(!showTerms)}
-              className="flex-1 py-2 text-sm border border-terminal-dark-green bg-terminal hover:bg-terminal-dark-green hover:text-terminal"
+              className="text-sm text-accent underline bg-transparent border-none p-0"
             >
-              {`LEGAL TERMS`}
+              {showTerms ? "Hide" : "Read"} pledge terms & conditions
             </button>
+            {showTerms && (
+              <div className="mt-3 bg-surface border border-border rounded-md p-4 text-xs text-muted space-y-2 leading-relaxed">
+                <p><span className="text-text font-semibold">No immediate charge.</span> This is not a purchase. No funds are collected now.</p>
+                <p><span className="text-text font-semibold">Conditional.</span> Payment only if a funding goal is reached AND you confirm via email.</p>
+                <p><span className="text-text font-semibold">Your choice.</span> When a goal is reached you'll get an email — confirm or cancel, no pressure.</p>
+                <p><span className="text-text font-semibold">Data use.</span> Your name and email are used only for goal milestone notifications.</p>
+                <a href="/terms" className="text-accent underline block mt-1">Full Terms & Pledge Policy →</a>
+              </div>
+            )}
           </div>
 
-          <div className="text-xs text-terminal-dark-green">
-            <p>
-              Read full policy before submitting: {" "}
-              <a href="/terms" className="text-terminal-green underline hover:text-terminal-dark-green">
-                Terms & Pledge Policy
-              </a>
-            </p>
+          <div className="bg-surface border border-border rounded-md p-4 text-sm text-muted">
+            <span className="text-text font-medium">Reminder:</span> No money is charged today. You'll receive an email at each funding milestone and can confirm or cancel before any payment is made.
           </div>
 
-          {showRewards && (
-            <div className="border border-terminal-dark-green p-4 bg-terminal-dark-green bg-opacity-5">
-              <h3 className="text-terminal-green mb-4">{`PLEDGE LEVEL REWARDS`}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {rewardTiers.map((tier) => (
-                  <div key={tier.amount} className="border border-terminal-dark-green p-3 text-sm">
-                    <p className="font-bold text-terminal-green">{`$${tier.amount}+ - ${tier.title}`}</p>
-                    <ul className="mt-2 space-y-1 text-terminal-dark-green">
-                      {tier.rewards.map((reward, idx) => (
-                        <li key={idx}>{`• ${reward}`}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-terminal-dark-green mt-4">
-                {`Note: All rewards are contingent on successful project funding and production completion.`}
-              </p>
-            </div>
-          )}
-
-          {showTerms && (
-            <div className="border border-terminal-green p-4 bg-terminal text-xs space-y-3">
-              <h3 className="text-terminal-green font-bold">{`IMPORTANT: PLEDGE AGREEMENT`}</h3>
-              
-              <div>
-                <p className="text-terminal-green font-bold mb-1">{`1. NO IMMEDIATE CHARGE`}</p>
-                <p className="text-terminal-dark-green">
-                  {`Your pledge is NOT a purchase. NO MONEY will be collected at this time. This is a conditional pledge of support.`}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-terminal-green font-bold mb-1">{`2. CONDITIONAL FUNDING`}</p>
-                <p className="text-terminal-dark-green">
-                  {`Payment is only processed IF AND WHEN the stated funding goal is reached. If Goal 1 ($15k) is never reached, you will NOT be charged.`}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-terminal-green font-bold mb-1">{`3. EMAIL NOTIFICATION`}</p>
-                <p className="text-terminal-dark-green">
-                  {`When a funding goal is reached, you will receive an email to ${email || "[your email]"} with full details about the project status and next steps.`}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-terminal-green font-bold mb-1">{`4. YOUR DECISION`}</p>
-                <p className="text-terminal-dark-green">
-                  {`After receiving the email, you will have the option to CONFIRM or CANCEL your pledge before any charge is made. Only pledges that are confirmed will result in a payment.`}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-terminal-green font-bold mb-1">{`5. REWARD DETAILS`}</p>
-                <p className="text-terminal-dark-green">
-                  {`Your email notification will include a detailed breakdown of rewards for your pledge level and timeline for delivery.`}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-terminal-green font-bold mb-1">{`6. REFUND POLICY`}</p>
-                <p className="text-terminal-dark-green">
-                  {`If funded and you confirm your pledge, refunds are subject to our refund policy (details in confirmation email).`}
-                </p>
-              </div>
-
-              <p className="text-terminal-dark-green border-t border-terminal-dark-green pt-3 mt-3">
-                {`By submitting this pledge, you agree to these terms and authorize the collection of your email address for project notifications only.`}
-              </p>
-            </div>
-          )}
-
-          <div className="bg-terminal-dark-green bg-opacity-10 border border-terminal-dark-green p-4 text-sm">
-            <p className="text-terminal-green font-bold mb-2">{`⚠ PLEDGE DISCLAIMER`}</p>
-            <p>{`This is a CONDITIONAL PLEDGE. Your information will only be used to notify you of goal milestones. NO charge will occur unless you confirm after receiving a goal milestone email. Review our Legal Terms above before pledging.`}</p>
-          </div>
-
-          <button type="submit" className="w-full py-3 text-lg font-bold">
-            {`I UNDERSTAND - SUBMIT PLEDGE`}
+          <button
+            type="submit"
+            className="w-full py-3 rounded-md bg-cta hover:bg-cta-hover text-white font-semibold text-base shadow-lg shadow-red-900/20 transition-colors"
+          >
+            Submit Pledge — No charge today
           </button>
         </form>
       )}

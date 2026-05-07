@@ -44,69 +44,57 @@ export default function CollaborationForm() {
   };
 
   return (
-    <div className="border border-terminal-green p-8 max-w-2xl">
-      <h2 className="text-2xl mb-6 terminal-text">{`COLLABORATE WITH US`}</h2>
+    <div className="max-w-2xl space-y-6">
+      <div>
+        <p className="mono text-accent text-xs tracking-widest uppercase mb-1">{"// JOIN THE TEAM"}</p>
+        <h2 className="text-2xl font-bold text-text">Collaborate With Us</h2>
+        <p className="text-muted text-sm mt-1">We're building a passionate crew to bring Project Miracles to life. All collaborators are credited.</p>
+      </div>
 
       {submitted ? (
-        <div className="border border-terminal-green p-4 bg-terminal">
-          <p className="text-terminal-green">{`✓ APPLICATION RECEIVED`}</p>
-          <p className="text-terminal-dark-green mt-2">
-            {`Thank you for your interest! We will contact you soon about opportunities.`}
-          </p>
+        <div className="bg-accent/10 border border-accent/30 rounded-md p-6">
+          <p className="text-accent font-semibold text-lg mb-1">✓ Application received</p>
+          <p className="text-muted text-sm">Thanks for your interest! We'll be in touch soon about opportunities.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-terminal-dark-green mb-2">
-              {`> NAME:`}
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className="w-full"
-            />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-text mb-1">Name</label>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className="w-full" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-text mb-1">Email</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" className="w-full" />
+            </div>
           </div>
 
           <div>
-            <label className="block text-terminal-dark-green mb-2">
-              {`> EMAIL:`}
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="w-full"
-            />
-          </div>
-
-          <div>
-            <label className="block text-terminal-dark-green mb-4">
-              {`> SELECT ROLES OF INTEREST:`}
-            </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <label className="block text-sm font-medium text-text mb-3">Roles of interest</label>
+            <div className="grid grid-cols-2 gap-3">
               {roleOptions.map((role) => (
-                <label key={role.id} className="flex items-center cursor-pointer">
+                <label key={role.id} className={`flex items-center gap-3 p-3 rounded-md border cursor-pointer transition-all ${
+                  roles.includes(role.id)
+                    ? "border-accent bg-accent/10 text-text"
+                    : "border-border bg-surface text-muted hover:border-accent/40"
+                }`}>
                   <input
                     type="checkbox"
                     checked={roles.includes(role.id)}
                     onChange={() => handleRoleChange(role.id)}
-                    className="mr-2 w-4 h-4"
+                    className="w-4 h-4 shrink-0"
                   />
-                  <span className="text-terminal-green">{role.label}</span>
+                  <span className="text-sm">{role.label}</span>
                 </label>
               ))}
             </div>
           </div>
 
-          <div className="bg-terminal-dark-green bg-opacity-10 border border-terminal-dark-green p-4 text-sm">
-            <p>{`[All collaborators will be credited. We are building a passionate team to bring Project Miracles to life.]`}</p>
-          </div>
-
-          <button type="submit" className="w-full py-3 text-lg font-bold">
-            {`SUBMIT APPLICATION`}
+          <button
+            type="submit"
+            className="w-full py-3 rounded-md bg-cta hover:bg-cta-hover text-white font-semibold text-base shadow-lg shadow-red-900/20 transition-colors"
+          >
+            Submit Application
           </button>
         </form>
       )}

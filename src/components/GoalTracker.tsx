@@ -13,71 +13,80 @@ export default function GoalTracker({ goals, totalPledged }: GoalTrackerProps) {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="border border-terminal-green p-6">
-        <h2 className="text-2xl mb-4 terminal-text">{`FUNDING PROGRESS`}</h2>
-        <p className="text-terminal-dark-green mb-6">
-          {`Total Pledged: $${totalPledged.toLocaleString()}`}
-        </p>
-
-        {goals.map((goal) => {
-          const percentage = getProgressPercentage(goal);
-          const isMet = totalPledged >= goal.target;
-
-          return (
-            <div key={goal.id} className="mb-8 pb-8 border-b border-terminal-dark-green last:border-0">
-              <h3 className="text-xl mb-2">
-                {`[GOAL ${goal.id}] ${goal.name}`}
-                {isMet && (
-                  <span className="ml-4 text-terminal-green animate-pulse">
-                    ✓ REACHED
-                  </span>
-                )}
-              </h3>
-              <p className="text-terminal-dark-green mb-4">{goal.description}</p>
-
-              <div className="mb-2 flex justify-between text-sm">
-                <span>{`$${goal.current.toLocaleString()} / $${goal.target.toLocaleString()}`}</span>
-                <span>{`${Math.round(percentage)}%`}</span>
-              </div>
-
-              <div className="w-full h-6 bg-terminal border border-terminal-green relative overflow-hidden">
-                <div
-                  className="h-full bg-terminal-green transition-all duration-500"
-                  style={{ width: `${percentage}%` }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center text-terminal text-xs font-bold opacity-50">
-                  {Math.round(percentage) > 10 && `${Math.round(percentage)}%`}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+    <div className="space-y-6">
+      {/* Summary bar */}
+      <div className="bg-surface border border-border rounded-md p-5 flex flex-wrap gap-6 items-center">
+        <div>
+          <p className="text-2xl font-bold text-text">${totalPledged.toLocaleString()}</p>
+          <p className="text-muted text-sm">total pledged</p>
+        </div>
+        <div className="h-10 w-px bg-border hidden md:block" />
+        <div>
+          <p className="text-sm font-medium text-text">
+            {totalPledged >= 165000
+              ? "🎉 All goals reached! Production begins."
+              : totalPledged >= 115000
+                ? "Goals 1 & 2 achieved — working toward distribution."
+                : totalPledged >= 15000
+                  ? "Goal 1 reached — writers and musicians secured."
+                  : "Help us reach the first milestone."}
+          </p>
+        </div>
       </div>
 
-      {/* Summary */}
-      <div className="border border-terminal-dark-green p-4 text-sm space-y-2">
-        <p>{`>>> MILESTONE STATUS <<<`}</p>
-        <p className="mt-2">
-          {totalPledged >= 165000
-            ? "ALL GOALS REACHED! Production begins immediately."
-            : totalPledged >= 100000
-              ? "Goal 1 & 2 achieved! Working toward distribution."
-              : totalPledged >= 15000
-                ? "Goal 1 reached! Writers and musicians secured."
-                : "Keep pledging to reach first milestone!"}
-        </p>
-        
-        <div className="mt-4 pt-4 border-t border-terminal-dark-green text-xs text-terminal-dark-green">
-          <p className="font-bold text-terminal-green mb-2">{`[WHEN GOALS ARE REACHED]`}</p>
-          <ul className="space-y-1">
-            <li>{`1. All pledgers receive confirmation email`}</li>
-            <li>{`2. Email includes project status & reward details`}</li>
-            <li>{`3. You have the option to CONFIRM or CANCEL`}</li>
-            <li>{`4. Payment only collected from confirmed pledges`}</li>
-            <li>{`5. Rewards sent according to pledge level`}</li>
-          </ul>
-        </div>
+      {/* Goal cards */}
+      {goals.map((goal) => {
+        const percentage = getProgressPercentage(goal);
+        const isMet = totalPledged >= goal.target;
+
+        return (
+          <div key={goal.id} className="bg-surface border border-border rounded-md p-6">
+            <div className="flex items-start justify-between mb-1 gap-4">
+              <div>
+                <span className="mono text-accent text-xs tracking-widest">GOAL {goal.id}</span>
+                <h3 className="text-lg font-semibold text-text mt-0.5">{goal.name}</h3>
+              </div>
+              {isMet ? (
+                <span className="shrink-0 text-xs font-medium bg-accent/20 text-accent border border-accent/30 rounded-full px-3 py-1">
+                  ✓ Reached
+                </span>
+              ) : (
+                <span className="shrink-0 text-xs font-medium bg-surface-2 text-muted border border-border rounded-full px-3 py-1">
+                  In Progress
+                </span>
+              )}
+            </div>
+
+            <p className="text-muted text-sm mb-4">{goal.description}</p>
+
+            {/* Progress bar */}
+            <div className="mb-2">
+              <div className="w-full h-3 bg-surface-2 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-accent rounded-full transition-all duration-700"
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between text-xs text-muted mono">
+              <span>${goal.current.toLocaleString()} pledged</span>
+              <span>{Math.round(percentage)}% of ${goal.target.toLocaleString()}</span>
+            </div>
+          </div>
+        );
+      })}
+
+      {/* How it works */}
+      <div className="bg-surface border border-border rounded-md p-5 text-sm">
+        <p className="font-semibold text-text mb-3">How it works</p>
+        <ol className="space-y-1 text-muted list-decimal list-inside text-sm">
+          <li>A funding goal is reached by combined pledges</li>
+          <li>All pledgers receive a confirmation email</li>
+          <li>You choose to confirm or cancel — no pressure</li>
+          <li>Payment is only collected from confirmed pledges</li>
+          <li>Rewards delivered according to your pledge level</li>
+        </ol>
       </div>
     </div>
   );

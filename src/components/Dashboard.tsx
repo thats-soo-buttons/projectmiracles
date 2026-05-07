@@ -107,62 +107,55 @@ export default function Dashboard() {
   const totalPledged = pledges.reduce((sum, p) => sum + p.amount, 0);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-5xl mx-auto px-4 py-10">
       {/* Header */}
-      <div className="mb-8 border-b border-terminal-green pb-4">
-        <h1 className="text-3xl md:text-4xl mb-2 terminal-text">{`PROJECT MIRACLES`}</h1>
-        <p className="text-terminal-green text-sm">{`OFFICIAL WEBSITE: PROJECTMIRACLES.ORG`}</p>
-        <p className="text-terminal-dark-green">{`>>> CROWDFUNDING INITIATIVE <<<`}</p>
+      <div className="mb-10 pb-6 border-b border-border">
+        <p className="mono text-accent text-xs tracking-widest uppercase mb-3 opacity-70">
+          {"// PROJECT MIRACLES — CROWDFUNDING"}
+        </p>
+        <h1 className="text-3xl md:text-4xl font-bold text-text mb-1">Campaign Dashboard</h1>
+        <p className="text-muted text-sm">projectmiracles.org &mdash; official campaign website</p>
       </div>
 
       {/* Notification */}
       {notificationMessage && (
-        <div className="mb-6 p-4 border border-terminal-green bg-terminal text-terminal-green terminal-text">
-          <p>{notificationMessage}</p>
+        <div className="mb-6 p-4 rounded-md border border-accent bg-accent/10 text-accent text-sm font-medium">
+          {notificationMessage}
         </div>
       )}
 
       {/* Navigation */}
-      <div className="mb-8 flex flex-wrap gap-4">
-        <button
-          onClick={() => setActiveTab("tracker")}
-          className={`px-6 py-2 ${
-            activeTab === "tracker"
-              ? "bg-terminal-dark-green text-terminal"
-              : "bg-terminal border border-terminal-green"
-          }`}
-        >
-          TRACKER
-        </button>
-        <button
-          onClick={() => setActiveTab("pledge")}
-          className={`px-6 py-2 ${
-            activeTab === "pledge"
-              ? "bg-terminal-dark-green text-terminal"
-              : "bg-terminal border border-terminal-green"
-          }`}
-        >
-          PLEDGE
-        </button>
-        <button
-          onClick={() => setActiveTab("collab")}
-          className={`px-6 py-2 ${
-            activeTab === "collab"
-              ? "bg-terminal-dark-green text-terminal"
-              : "bg-terminal border border-terminal-green"
-          }`}
-        >
-          COLLABORATE
-        </button>
+      <div className="mb-8 flex flex-wrap gap-3">
+        {(["tracker", "pledge", "collab"] as const).map((tab) => {
+          const labels = { tracker: "Goal Tracker", pledge: "Pledge Support", collab: "Collaborate" };
+          const active = activeTab === tab;
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-5 py-2 rounded-md text-sm font-medium border transition-all ${
+                active
+                  ? "bg-accent text-bg border-accent"
+                  : "bg-surface border-border text-muted hover:border-accent/50 hover:text-text"
+              }`}
+            >
+              {labels[tab]}
+            </button>
+          );
+        })}
+
+        {/* Live total — top right on desktop */}
+        <div className="ml-auto mono text-xs text-muted flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-accent inline-block animate-pulse"></span>
+          ${totalPledged.toLocaleString()} pledged &bull; {pledges.length} backers
+        </div>
       </div>
 
-      {/* Official verification */}
-      <div className="mb-8 border border-terminal-green p-4 bg-terminal-dark-green bg-opacity-10 text-sm space-y-2">
-        <p className="text-terminal-green font-bold">{`OFFICIAL VERIFICATION`}</p>
-        <p className="text-terminal-dark-green">{`ProjectMiracles.org is the official campaign website for Project Miracles.`}</p>
-        <p className="text-terminal-dark-green">{`DevillierMedia.com is the official production company website.`}</p>
-        <p className="text-terminal-dark-green">{`We are currently collecting conditional pledges only. No payment is taken at pledge submission.`}</p>
-        <p className="text-terminal-dark-green">{`If you see payment requests outside these official domains, treat them as unauthorized and report them.`}</p>
+      {/* Official verification banner */}
+      <div className="mb-8 bg-surface border border-border rounded-md p-4 text-sm space-y-1">
+        <p className="font-semibold text-text mb-2">✓ Official Campaign Verification</p>
+        <p className="text-muted">This is the official campaign at <span className="text-text">projectmiracles.org</span>. Production by <span className="text-text">DevillierMedia.com</span>.</p>
+        <p className="text-muted">Conditional pledges only — no payment is taken at submission. If you see payment requests outside these domains, report them as unauthorized.</p>
       </div>
 
       {/* Content */}
@@ -177,33 +170,22 @@ export default function Dashboard() {
       </div>
 
       {/* Footer */}
-      <div className="mt-12 pt-8 border-t border-terminal-green text-terminal-dark-green text-sm space-y-4">
+      <div className="mt-12 pt-8 border-t border-border text-sm space-y-4 text-muted">
         <div>
-          <p className="font-bold text-terminal-green">{`[SYSTEM STATUS]`}</p>
-          <p>{`Total Pledged: $${totalPledged.toLocaleString()} | Pledgers: ${pledges.length}`}</p>
-        </div>
-
-        <div>
-          <p className="font-bold text-terminal-green">{`[LEGAL DISCLAIMER]`}</p>
-          <p className="text-xs">
-            {`CONDITIONAL PLEDGES: This is NOT a transaction. No funds are collected at this time. Pledges are conditional on funding goal achievement. Once a goal is reached, pledgers will receive an email notification and can CONFIRM or DECLINE participation before any charge is made. Data is used only for goal milestone notifications. By pledging, you agree to these terms.`}
-          </p>
-          <p className="text-xs mt-2">
-            <a href="/terms" className="text-terminal-green underline hover:text-terminal-dark-green">
-              Read full Terms & Pledge Policy
+          <p className="font-semibold text-text mb-1">Legal Disclaimer</p>
+          <p className="text-xs leading-relaxed">
+            Conditional pledges are not transactions. No funds are collected at pledge submission. Once a funding goal is reached, pledgers receive an email and can confirm or decline before any charge is made. Data used only for goal milestone notifications.{" "}
+            <a href="/terms" className="text-accent underline hover:text-accent/80">
+              Read full Terms & Pledge Policy →
             </a>
           </p>
         </div>
-
         <div>
-          <p className="font-bold text-terminal-green">{`[PROCESS EXPLANATION]`}</p>
-          <p className="text-xs">
-            {`When a goal is reached → Email sent → You confirm or decline → If confirmed, payment collected → Rewards delivered per pledge level. See pledge form for full terms & conditions.`}
+          <p className="text-xs mono">
+            When a goal is reached → Email sent → You confirm or decline → Payment collected only if confirmed → Rewards delivered
           </p>
         </div>
-
-        <p>{`ProjectMiracles.org is the official website for this campaign.`}</p>
-        <p>{`ProjectMiracles.org © 2024 | Bringing horror to life through community support`}</p>
+        <p className="text-xs">ProjectMiracles.org © 2025 — Bringing horror to life through community support</p>
       </div>
     </div>
   );
