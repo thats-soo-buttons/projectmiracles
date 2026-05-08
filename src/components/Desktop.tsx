@@ -233,63 +233,70 @@ export default function Desktop() {
 
               {/* ── BlackmillVA ── */}
               {openFolder === "blackmill" && (
-                <div className="space-y-7">
+                <div className="space-y-6">
+                  {/* Hero Section */}
                   <div>
-                    <p className="mono text-accent text-xs tracking-widest uppercase mb-2">
-                      {"// SERIES PITCH"}
+                    <p className="mono text-accent text-xs tracking-widest uppercase mb-3">{"// A DARK MYSTERY UNFOLDS"}</p>
+                    <h2 className="text-4xl md:text-5xl font-black text-accent mb-2">MIRACLE</h2>
+                    <p className="text-lg md:text-xl font-semibold text-text mb-3">in Blackmill, VA</p>
+                    <p className="text-text leading-relaxed text-base max-w-2xl">
+                      A psychological horror series where each season replays the same week from a new perspective. The deeper you go, the darker it gets.
                     </p>
-                    <h2 className="text-2xl md:text-3xl font-semibold text-text mb-3">
-                      Miracle in Blackmill, VA
-                    </h2>
-                    <p className="text-text leading-relaxed max-w-3xl">
-                      A dark psychological thriller set in a town that should not exist. Each season retells the same pivotal week from a different point of view, revealing that Blackmill is part of a hidden containment experiment called Miracle.
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-4 text-xs mono text-muted">
-                      <span>status: in progress</span>
-                      <span>format: 6 episodes per season</span>
-                      <span className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block" />
-                        ${totalPledged.toLocaleString()} pledged &bull; {pledges.length} backers
-                      </span>
+                  </div>
+
+                  {/* Key Stats Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="bg-accent/20 border border-accent/40 rounded-md p-4">
+                      <p className="mono text-[10px] text-accent uppercase tracking-widest mb-1">Episodes</p>
+                      <p className="text-3xl font-black text-accent">6</p>
+                      <p className="text-xs text-muted mt-1">per season</p>
+                    </div>
+                    <div className="bg-accent/20 border border-accent/40 rounded-md p-4">
+                      <p className="mono text-[10px] text-accent uppercase tracking-widest mb-1">Seasons</p>
+                      <p className="text-3xl font-black text-accent">6</p>
+                      <p className="text-xs text-muted mt-1">arc planned</p>
+                    </div>
+                    <div className="bg-accent/20 border border-accent/40 rounded-md p-4">
+                      <p className="mono text-[10px] text-accent uppercase tracking-widest mb-1">Pledged</p>
+                      <p className="text-3xl font-black text-accent">${(totalPledged / 1000).toFixed(0)}k</p>
+                      <p className="text-xs text-muted mt-1">{pledges.length} backers</p>
+                    </div>
+                    <div className="bg-accent/20 border border-accent/40 rounded-md p-4">
+                      <p className="mono text-[10px] text-accent uppercase tracking-widest mb-1">Rating</p>
+                      <p className="text-3xl font-black text-accent">R</p>
+                      <p className="text-xs text-muted mt-1">rated horror</p>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* The Hook */}
+                  <div className="bg-surface-2 border border-border rounded-md p-5">
+                    <p className="mono text-accent text-xs tracking-widest uppercase mb-3">{"// SEASON 1: THE SETUP"}</p>
+                    <p className="text-text leading-relaxed">
+                      Follow a married couple through obsession, manipulation, and murder while hidden cameras record every move. The wife kills the husband. SWAT raids the house. Red emergency lights. A single blinking lens in the corner.
+                    </p>
+                    <p className="text-xs text-muted mt-3">
+                      And that's just the beginning. Rewatch as different characters reveal what you really missed.
+                    </p>
+                  </div>
+
+                  {/* Why It Works */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div className="bg-surface-2 border border-border rounded-md p-4">
-                      <p className="mono text-accent text-xs tracking-widest uppercase mb-2">Story Engine</p>
-                      <ul className="text-sm text-muted space-y-2 leading-relaxed">
-                        <li>Each episode covers one day of the same week.</li>
-                        <li>Seasons 1-4 replay that week through different residents.</li>
-                        <li>Seasons 5-6 expand beyond the loop into the fallout.</li>
-                        <li>Viewers slowly discover Blackmill is an engineered prison town.</li>
-                      </ul>
+                      <p className="mono text-accent text-xs tracking-widest uppercase mb-2">{"// Rashomon Effect"}</p>
+                      <p className="text-xs text-muted leading-relaxed">Same 6 days. 4 different points of view. Each season peels back a new layer of the mystery.</p>
                     </div>
                     <div className="bg-surface-2 border border-border rounded-md p-4">
-                      <p className="mono text-accent text-xs tracking-widest uppercase mb-2">Season 1 Hook</p>
-                      <p className="text-sm text-muted leading-relaxed">
-                        A married couple spirals through manipulation, obsession, and violence while the audience suspects the wrong danger. The finale detonates into blackout, sirens, and SWAT, ending on a recorded clue that reframes everything.
-                      </p>
+                      <p className="mono text-accent text-xs tracking-widest uppercase mb-2">{"// Audience Solves It"}</p>
+                      <p className="text-xs text-muted leading-relaxed">By the finale, viewers unlock leaked security footage. You become the whistleblower.</p>
+                    </div>
+                    <div className="bg-surface-2 border border-border rounded-md p-4">
+                      <p className="mono text-accent text-xs tracking-widest uppercase mb-2">{"// Music-Driven"}</p>
+                      <p className="text-xs text-muted leading-relaxed">Each episode is a song. Ella Fitzgerald to Muse to Nothing but Thieves.</p>
                     </div>
                   </div>
 
-                  <div className="bg-surface-2 border border-border rounded-md p-4">
-                    <p className="mono text-accent text-xs tracking-widest uppercase mb-3">Why Back This Now</p>
-                    <p className="text-sm text-muted leading-relaxed">
-                      This campaign funds writing, music development, and pilot production for a bold original horror series designed for long-form mystery storytelling. Pledges are conditional and only move forward when milestones are met.
-                    </p>
-                  </div>
-
+                  {/* Funding */}
                   <GoalTracker goals={goals} totalPledged={totalPledged} />
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {GOALS.map((goal) => (
-                      <div key={goal.id} className="border border-border rounded-md p-3 bg-surface-2">
-                        <p className="mono text-[11px] text-accent uppercase tracking-widest mb-1">Goal {goal.id}</p>
-                        <p className="text-sm text-text font-medium">{goal.name}</p>
-                        <p className="text-xs text-muted mt-1">Target: ${goal.target.toLocaleString()}</p>
-                      </div>
-                    ))}
-                  </div>
 
                   <p className="text-xs text-muted">
                     If you see payment requests outside official domains, treat them as unauthorized and report them.
