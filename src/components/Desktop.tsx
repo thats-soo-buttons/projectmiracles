@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Script from "next/script";
 import GoalTracker from "./GoalTracker";
 import PledgeForm from "./PledgeForm";
 import CollaborationForm from "./CollaborationForm";
@@ -262,10 +263,17 @@ export default function Desktop() {
                       <p className="text-xs text-muted mt-1">{pledges.length} backers</p>
                     </div>
                     <div className="bg-accent/20 border border-accent/40 rounded-md p-4">
-                      <p className="mono text-[10px] text-accent uppercase tracking-widest mb-1">Rating</p>
+                      <p className="mono text-[10px] text-accent uppercase tracking-widest mb-1">Content</p>
                       <p className="text-3xl font-black text-accent">R</p>
-                      <p className="text-xs text-muted mt-1">rated horror</p>
+                      <p className="text-xs text-muted mt-1">heavy themes</p>
                     </div>
+                  </div>
+
+                  <div className="bg-surface-2 border border-border rounded-md p-4">
+                    <p className="mono text-accent text-xs tracking-widest uppercase mb-2">{"// CONTENT ADVISORY"}</p>
+                    <p className="text-xs text-muted leading-relaxed">
+                      This series includes violence, sexual content, taboo subject matter, mental health themes, unjust capture, and dissociative identity themes, plus depictions of anti-LGBTQ+ prejudice.
+                    </p>
                   </div>
 
                   {/* The Hook */}
@@ -340,6 +348,8 @@ export default function Desktop() {
               {/* ── Video ── */}
               {openFolder === "video" && (
                 <div className="space-y-10">
+                  <Script src="https://www.tiktok.com/embed.js" strategy="lazyOnload" />
+
                   {/* Teasers */}
                   <div>
                     <p className="mono text-accent text-xs tracking-widest uppercase mb-4">
@@ -347,33 +357,68 @@ export default function Desktop() {
                     </p>
                     {/* 
                       TO ADD TIKTOK VIDEOS:
-                      Replace each placeholder div with a TikTok blockquote embed.
-                      Get embed code from TikTok → Share → Embed.
-                      Example:
-                      <blockquote
-                        className="tiktok-embed"
-                        cite="https://www.tiktok.com/@yourhandle/video/VIDEO_ID"
-                        data-video-id="VIDEO_ID"
-                        style={{ maxWidth: "325px", minWidth: "325px" }}
-                      >
-                        <section />
-                      </blockquote>
-                      Add this once at the bottom of the page:
-                      <script async src="https://www.tiktok.com/embed.js" />
+                      Replace placeholder cards with a TikTok embed iframe.
+                      Example embed URL:
+                      https://www.tiktok.com/embed/v2/VIDEO_ID
                     */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                      {[1, 2, 3].map((n) => (
-                        <div
-                          key={n}
-                          className="bg-surface-2 border border-dashed border-border rounded-md flex flex-col items-center justify-center gap-2 text-muted text-xs text-center p-6 aspect-[9/16] max-w-[280px]"
+                      <div className="bg-surface-2 border border-border rounded-md overflow-hidden max-w-[325px] p-2">
+                        <blockquote
+                          className="tiktok-embed"
+                          cite="https://www.tiktok.com/@thatssoobuttons/video/7530714721855671607"
+                          data-video-id="7530714721855671607"
+                          style={{ maxWidth: 325, minWidth: 325 }}
                         >
-                          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M15 10l4.553-2.853A1 1 0 0121 8v8a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
-                          </svg>
-                          <span>TikTok teaser #{n}</span>
-                          <span className="opacity-50">paste embed code here</span>
-                        </div>
-                      ))}
+                          <section>
+                            <a
+                              target="_blank"
+                              title="@thatssoobuttons"
+                              href="https://www.tiktok.com/@thatssoobuttons?refer=embed"
+                              rel="noreferrer"
+                            >
+                              @thatssoobuttons
+                            </a>
+                          </section>
+                        </blockquote>
+                      </div>
+                      <div className="bg-surface-2 border border-border rounded-md overflow-hidden max-w-[325px] p-2">
+                        <blockquote
+                          className="tiktok-embed"
+                          cite="https://www.tiktok.com/@thatssoobuttons/video/7584305944784276791"
+                          data-video-id="7584305944784276791"
+                          style={{ maxWidth: 325, minWidth: 325 }}
+                        >
+                          <section>
+                            <a
+                              target="_blank"
+                              title="@thatssoobuttons"
+                              href="https://www.tiktok.com/@thatssoobuttons?refer=embed"
+                              rel="noreferrer"
+                            >
+                              @thatssoobuttons
+                            </a>
+                          </section>
+                        </blockquote>
+                      </div>
+                      <div className="bg-surface-2 border border-border rounded-md overflow-hidden max-w-[325px] p-2">
+                        <blockquote
+                          className="tiktok-embed"
+                          cite="https://www.tiktok.com/@thatssoobuttons/video/7597531542029634830"
+                          data-video-id="7597531542029634830"
+                          style={{ maxWidth: 325, minWidth: 325 }}
+                        >
+                          <section>
+                            <a
+                              target="_blank"
+                              title="@thatssoobuttons"
+                              href="https://www.tiktok.com/@thatssoobuttons?refer=embed"
+                              rel="noreferrer"
+                            >
+                              @thatssoobuttons
+                            </a>
+                          </section>
+                        </blockquote>
+                      </div>
                     </div>
                   </div>
 
