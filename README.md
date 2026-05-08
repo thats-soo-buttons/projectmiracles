@@ -39,6 +39,13 @@ npm run dev
 
 Visit `http://localhost:3000` in your browser.
 
+### Optional: Discord Webhook for Bulletin Posts
+
+1. Copy `.env.example` to `.env.local`
+2. Set `DISCORD_WEBHOOK_URL` to your Discord channel webhook URL
+
+If this value is missing, bulletin posts still save locally and Discord forwarding is skipped.
+
 ### Build for Production
 
 ```bash

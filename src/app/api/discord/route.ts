@@ -2,13 +2,18 @@ export async function POST(request: Request) {
   try {
     const { name, message } = await request.json();
 
+    if (typeof name !== "string" || typeof message !== "string") {
+      return Response.json(
+        { error: "Invalid payload" },
+        { status: 400 }
+      );
+    }
+
     // Get webhook URL from environment variable
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
     if (!webhookUrl) {
-      return Response.json(
-        { error: "Discord webhook not configured" },
-        { status: 500 }
-      );
+      // Graceful fallback: local posting still works even without Discord configured.
+      return Response.json({ success: true, skipped: true, reason: "missing_webhook" });
     }
 
     // Send to Discord
@@ -38,7 +43,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return Response.json({ success: true });
+    return Response.json({ success: true, skipped: false });
   } catch (error) {
     console.error("Discord API error:", error);
     return Response.json(

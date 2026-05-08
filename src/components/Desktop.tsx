@@ -7,7 +7,7 @@ import CollaborationForm from "./CollaborationForm";
 import BulletinBoard from "./BulletinBoard";
 import { Pledge, Goal } from "./Dashboard";
 
-type FolderName = "blackmill" | "pledges" | "proog";
+type FolderName = "blackmill" | "pledges" | "video";
 
 const GOALS: Goal[] = [
   {
@@ -151,13 +151,13 @@ export default function Desktop() {
   const folders: { id: FolderName; label: string }[] = [
     { id: "blackmill", label: "BlackmillVA" },
     { id: "pledges", label: "Pledges" },
-    { id: "proog", label: "Proog" },
+    { id: "video", label: "Video" },
   ];
 
   const folderTitles: Record<FolderName, string> = {
     blackmill: "BlackmillVA",
     pledges: "Pledges",
-    proog: "Proog",
+    video: "Video",
   };
 
   return (
@@ -250,6 +250,13 @@ export default function Desktop() {
                       </span>
                     </div>
                   </div>
+                  <div className="border border-border rounded-md overflow-hidden bg-surface-2">
+                    <iframe
+                      src="https://docs.google.com/document/d/e/2PACX-1vQH2nIs5GZ0z7Y6Jl8Om74LppLirWuOl78oE_pUIphnUiD1Pni-wmhxzD0jxYcXXgk3WYl0_Ns5s9J5/pub?embedded=true"
+                      title="BlackmillVA Production Document"
+                      className="w-full h-[560px]"
+                    />
+                  </div>
                   <GoalTracker goals={goals} totalPledged={totalPledged} />
                   <p className="text-xs text-muted">
                     If you see payment requests outside official domains, treat them as unauthorized and report them.
@@ -290,8 +297,8 @@ export default function Desktop() {
                 </div>
               )}
 
-              {/* ── Proog ── */}
-              {openFolder === "proog" && (
+              {/* ── Video ── */}
+              {openFolder === "video" && (
                 <div className="space-y-10">
                   {/* Teasers */}
                   <div>
