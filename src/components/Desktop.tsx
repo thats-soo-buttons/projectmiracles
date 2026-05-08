@@ -233,31 +233,64 @@ export default function Desktop() {
 
               {/* ── BlackmillVA ── */}
               {openFolder === "blackmill" && (
-                <div className="space-y-6">
+                <div className="space-y-7">
                   <div>
                     <p className="mono text-accent text-xs tracking-widest uppercase mb-2">
-                      {"// CAMPAIGN OVERVIEW"}
+                      {"// SERIES PITCH"}
                     </p>
-                    <p className="text-text leading-relaxed max-w-2xl">
-                      A horror TV series built by the community — writers, musicians, and fans funding something real. Conditional pledges only; no charge until a goal is reached and you confirm.
+                    <h2 className="text-2xl md:text-3xl font-semibold text-text mb-3">
+                      Miracle in Blackmill, VA
+                    </h2>
+                    <p className="text-text leading-relaxed max-w-3xl">
+                      A dark psychological thriller set in a town that should not exist. Each season retells the same pivotal week from a different point of view, revealing that Blackmill is part of a hidden containment experiment called Miracle.
                     </p>
                     <div className="mt-3 flex flex-wrap gap-4 text-xs mono text-muted">
-                      <span>official: projectmiracles.org</span>
-                      <span>production: DevillierMedia.com</span>
+                      <span>status: in progress</span>
+                      <span>format: 6 episodes per season</span>
                       <span className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block" />
                         ${totalPledged.toLocaleString()} pledged &bull; {pledges.length} backers
                       </span>
                     </div>
                   </div>
-                  <div className="border border-border rounded-md overflow-hidden bg-surface-2">
-                    <iframe
-                      src="https://docs.google.com/document/d/e/2PACX-1vQH2nIs5GZ0z7Y6Jl8Om74LppLirWuOl78oE_pUIphnUiD1Pni-wmhxzD0jxYcXXgk3WYl0_Ns5s9J5/pub?embedded=true"
-                      title="BlackmillVA Production Document"
-                      className="w-full h-[560px]"
-                    />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-surface-2 border border-border rounded-md p-4">
+                      <p className="mono text-accent text-xs tracking-widest uppercase mb-2">Story Engine</p>
+                      <ul className="text-sm text-muted space-y-2 leading-relaxed">
+                        <li>Each episode covers one day of the same week.</li>
+                        <li>Seasons 1-4 replay that week through different residents.</li>
+                        <li>Seasons 5-6 expand beyond the loop into the fallout.</li>
+                        <li>Viewers slowly discover Blackmill is an engineered prison town.</li>
+                      </ul>
+                    </div>
+                    <div className="bg-surface-2 border border-border rounded-md p-4">
+                      <p className="mono text-accent text-xs tracking-widest uppercase mb-2">Season 1 Hook</p>
+                      <p className="text-sm text-muted leading-relaxed">
+                        A married couple spirals through manipulation, obsession, and violence while the audience suspects the wrong danger. The finale detonates into blackout, sirens, and SWAT, ending on a recorded clue that reframes everything.
+                      </p>
+                    </div>
                   </div>
+
+                  <div className="bg-surface-2 border border-border rounded-md p-4">
+                    <p className="mono text-accent text-xs tracking-widest uppercase mb-3">Why Back This Now</p>
+                    <p className="text-sm text-muted leading-relaxed">
+                      This campaign funds writing, music development, and pilot production for a bold original horror series designed for long-form mystery storytelling. Pledges are conditional and only move forward when milestones are met.
+                    </p>
+                  </div>
+
                   <GoalTracker goals={goals} totalPledged={totalPledged} />
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {GOALS.map((goal) => (
+                      <div key={goal.id} className="border border-border rounded-md p-3 bg-surface-2">
+                        <p className="mono text-[11px] text-accent uppercase tracking-widest mb-1">Goal {goal.id}</p>
+                        <p className="text-sm text-text font-medium">{goal.name}</p>
+                        <p className="text-xs text-muted mt-1">Target: ${goal.target.toLocaleString()}</p>
+                      </div>
+                    ))}
+                  </div>
+
                   <p className="text-xs text-muted">
                     If you see payment requests outside official domains, treat them as unauthorized and report them.
                   </p>
