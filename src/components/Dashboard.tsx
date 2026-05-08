@@ -27,7 +27,7 @@ const GOALS: Goal[] = [
     name: "Writer/Musician Funds",
     description:
       "Pay 3 writers for 12-week sprint, hire musicians, open project bank account",
-    target: 15000,
+    target: 25000,
     current: 0,
   },
   {

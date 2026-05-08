@@ -8,9 +8,13 @@ interface GoalTrackerProps {
 }
 
 export default function GoalTracker({ goals, totalPledged }: GoalTrackerProps) {
-  const getProgressPercentage = (goal: Goal) => {
-    return Math.min((goal.current / goal.target) * 100, 100);
+  const getProgressPercentage = (pledgedForStage: number, target: number) => {
+    return Math.min((pledgedForStage / target) * 100, 100);
   };
+
+  const goalOneTarget = goals[0]?.target ?? 0;
+  const goalTwoCumulative = goals.slice(0, 2).reduce((sum, goal) => sum + goal.target, 0);
+  const allGoalsCumulative = goals.reduce((sum, goal) => sum + goal.target, 0);
 
   return (
     <div className="space-y-6">
@@ -23,11 +27,11 @@ export default function GoalTracker({ goals, totalPledged }: GoalTrackerProps) {
         <div className="h-10 w-px bg-border hidden md:block" />
         <div>
           <p className="text-sm font-medium text-text">
-            {totalPledged >= 165000
+            {totalPledged >= allGoalsCumulative
               ? "🎉 All goals reached! Production begins."
-              : totalPledged >= 115000
+              : totalPledged >= goalTwoCumulative
                 ? "Goals 1 & 2 achieved — working toward distribution."
-                : totalPledged >= 15000
+                : totalPledged >= goalOneTarget
                   ? "Goal 1 reached — writers and musicians secured."
                   : "Help us reach the first milestone."}
           </p>
@@ -35,9 +39,26 @@ export default function GoalTracker({ goals, totalPledged }: GoalTrackerProps) {
       </div>
 
       {/* Goal cards */}
-      {goals.map((goal) => {
-        const percentage = getProgressPercentage(goal);
-        const isMet = totalPledged >= goal.target;
+      {goals.map((goal, index) => {
+        const priorTargetTotal = goals
+          .slice(0, index)
+          .reduce((sum, item) => sum + item.target, 0);
+        const targetTotalToThisGoal = priorTargetTotal + goal.target;
+
+        const isUnlocked = index === 0 || totalPledged >= priorTargetTotal;
+        const isMet = totalPledged >= targetTotalToThisGoal;
+
+        const pledgedForStage = Math.max(
+          0,
+          Math.min(goal.target, totalPledged - priorTargetTotal)
+        );
+        const percentage = getProgressPercentage(pledgedForStage, goal.target);
+
+        const statusLabel = isMet
+          ? "✓ Reached"
+          : !isUnlocked
+            ? "Locked"
+            : "Current Goal";
 
         return (
           <div key={goal.id} className="bg-surface border border-border rounded-md p-6">
@@ -46,15 +67,17 @@ export default function GoalTracker({ goals, totalPledged }: GoalTrackerProps) {
                 <span className="mono text-accent text-xs tracking-widest">GOAL {goal.id}</span>
                 <h3 className="text-lg font-semibold text-text mt-0.5">{goal.name}</h3>
               </div>
-              {isMet ? (
-                <span className="shrink-0 text-xs font-medium bg-accent/20 text-accent border border-accent/30 rounded-full px-3 py-1">
-                  ✓ Reached
-                </span>
-              ) : (
-                <span className="shrink-0 text-xs font-medium bg-surface-2 text-muted border border-border rounded-full px-3 py-1">
-                  In Progress
-                </span>
-              )}
+              <span
+                className={`shrink-0 text-xs font-medium border rounded-full px-3 py-1 ${
+                  isMet
+                    ? "bg-accent/20 text-accent border-accent/30"
+                    : isUnlocked
+                      ? "bg-surface-2 text-muted border-border"
+                      : "bg-surface-2 text-muted/80 border-border"
+                }`}
+              >
+                {statusLabel}
+              </span>
             </div>
 
             <p className="text-muted text-sm mb-4">{goal.description}</p>
@@ -63,14 +86,16 @@ export default function GoalTracker({ goals, totalPledged }: GoalTrackerProps) {
             <div className="mb-2">
               <div className="w-full h-3 bg-surface-2 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-accent rounded-full transition-all duration-700"
+                  className={`h-full rounded-full transition-all duration-700 ${
+                    isUnlocked ? "bg-accent" : "bg-border"
+                  }`}
                   style={{ width: `${percentage}%` }}
                 />
               </div>
             </div>
 
             <div className="flex justify-between text-xs text-muted mono">
-              <span>${goal.current.toLocaleString()} pledged</span>
+              <span>${pledgedForStage.toLocaleString()} pledged</span>
               <span>{Math.round(percentage)}% of ${goal.target.toLocaleString()}</span>
             </div>
           </div>
