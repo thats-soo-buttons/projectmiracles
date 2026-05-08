@@ -45,6 +45,13 @@ export default function BulletinBoard() {
     localStorage.setItem("bulletin", JSON.stringify(updated));
     setName("");
     setMessage("");
+
+    // Send to Discord webhook (non-blocking)
+    fetch("/api/discord", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: post.name, message: post.message }),
+    }).catch((err) => console.error("Failed to send to Discord:", err));
   };
 
   return (
